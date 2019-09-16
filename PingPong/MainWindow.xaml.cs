@@ -20,9 +20,12 @@ namespace PingPong
     /// </summary>
     public partial class MainWindow : Window
     {
+        Ball ball;
+
         public MainWindow()
         {
             InitializeComponent();
+            ball = new Ball(canvas);
         }
     }
 }
