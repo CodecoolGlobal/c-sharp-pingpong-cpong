@@ -23,6 +23,8 @@ namespace PingPong
             x = 50;
             y = 50;
             size = 15;
+            xdir = speed;
+            ydir = speed;
             color.Color = Color.FromRgb(255,0,0);
             rectangle.Fill = color;
             rectangle.Width = size;
@@ -31,6 +33,16 @@ namespace PingPong
             Canvas.SetLeft(rectangle, x);
             canvas.Children.Add(rectangle);
             
+        }
+
+        public void movement()
+        {
+            x += xdir;
+            y += ydir;
+            Canvas.SetTop(rectangle, y);
+            Canvas.SetLeft(rectangle, x);
+
+
         }
     }
 }
