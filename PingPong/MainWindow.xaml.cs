@@ -37,12 +37,12 @@ namespace PingPong
         {
             ball.movement();
 
-            if(ball.x <= 0 || ball.x >= 800)
+            if(ball.x <= 0 || ball.x >= ActualWidth -30)
             {
                 ball.bounceX();
             }
 
-            if(ball.y <= 0 || ball.y >= 450)
+            if(ball.y <= 0 || ball.y >= ActualHeight -30)
             {
                 ball.boudnceY();
             }
