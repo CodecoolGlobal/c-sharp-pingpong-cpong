@@ -42,7 +42,7 @@ namespace PingPong
             {
                 ball.bounceX();
             }
-
+                
             if(ball.y <= 0 || ball.y >= ActualHeight -15)
             {
                 ball.boudnceY();
@@ -67,7 +67,17 @@ namespace PingPong
                 }
             if(e.Key == Key.Escape)
             {
-                Close();
+                dispatcherTimer.IsEnabled = false;
+                MessageBoxResult result = MessageBox.Show("Are you sure to quit from the best game ever?","PingPong", MessageBoxButton.YesNo);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        Close();
+                        break;
+                    case MessageBoxResult.No:
+                        dispatcherTimer.IsEnabled = true;
+                        break;
+            }
             }
             }
 
