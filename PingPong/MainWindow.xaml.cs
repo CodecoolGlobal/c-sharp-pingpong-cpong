@@ -36,6 +36,16 @@ namespace PingPong
         public void dispatcherTimer_tick(object sender, EventArgs e)
         {
             ball.movement();
+
+            if(ball.x <= 0 || ball.x >= 800)
+            {
+                ball.bounceX();
+            }
+
+            if(ball.y <= 0 || ball.y >= 450)
+            {
+                ball.boudnceY();
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

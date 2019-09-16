@@ -12,7 +12,7 @@ namespace PingPong
     class Ball
     {
         Rectangle rectangle = new Rectangle();
-        int x, y, size;
+        public int x, y, size;
         int xdir, ydir;
         int speed = 5;
 
@@ -41,8 +41,34 @@ namespace PingPong
             y += ydir;
             Canvas.SetTop(rectangle, y);
             Canvas.SetLeft(rectangle, x);
+        }
 
+        public void bounceX()
+        {
+            if(xdir == 5)
+            {
+                xdir = -5;
+            }
 
+            else
+            {
+                xdir = 5;
+            }
+        }
+
+        public void boudnceY()
+        {
+            if(ydir == 5)
+            {
+                ydir = -5;
+
+            }
+            else
+            {
+                ydir = 5;
+            }
         }
     }
+
+
 }

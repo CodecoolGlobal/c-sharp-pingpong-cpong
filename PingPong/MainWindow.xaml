@@ -7,7 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
     <Grid>
-        <Canvas x:Name="canvas"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <Canvas x:Name="canvas" Grid.ColumnSpan="2" Margin="0,0,-8,0"/>
 
     </Grid>
 </Window>
