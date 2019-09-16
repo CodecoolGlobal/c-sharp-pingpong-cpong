@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PingPong"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
-        <Canvas x:Name="canvas" Grid.ColumnSpan="2" Margin="0,0,-8,0"/>
+        <Canvas x:Name="canvas" Grid.ColumnSpan="2" Margin="0,0,-8,0">
+        </Canvas>
+        <Label x:Name="paused" Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="282,144,0,0" Height="93" Width="196" FontSize="36" FontFamily="Segoe UI Semibold"/>
 
     </Grid>
 </Window>
