@@ -31,6 +31,7 @@ namespace PingPong
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0,0,0,0,25);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_tick);
+
         }
 
         public void dispatcherTimer_tick(object sender, EventArgs e)
@@ -48,9 +49,44 @@ namespace PingPong
             }
         }
 
+
+        public void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (dispatcherTimer.IsEnabled)
+            {
+                if (e.Key == Key.Space)
+                {
+                    dispatcherTimer.IsEnabled = false;
+                    paused.Visibility = Visibility.Visible;
+                }
+            }
+            else
+                {
+                    dispatcherTimer.IsEnabled = true;
+                    paused.Visibility = Visibility.Hidden;
+                }
+            if(e.Key == Key.Escape)
+            {
+                dispatcherTimer.IsEnabled = false;
+                MessageBoxResult result = MessageBox.Show("Are you sure to quit from the best game ever?","PingPong", MessageBoxButton.YesNo);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        Close();
+                        break;
+                    case MessageBoxResult.No:
+                        dispatcherTimer.IsEnabled = true;
+                        break;
+            }
+            }
+            }
+
+        
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            dispatcherTimer.IsEnabled = true;
+            dispatcherTimer.IsEnabled = false;
+            paused.Visibility = Visibility.Hidden;
         }
     }
 }

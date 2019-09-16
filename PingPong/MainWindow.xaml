@@ -7,8 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Loaded="Window_Loaded"
         WindowState="Maximized"
-        WindowStyle="None">
+        WindowStyle="None" KeyDown="Window_KeyDown"
+ >
     <Grid>
-        <Canvas x:Name="canvas"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <Canvas x:Name="canvas" Grid.ColumnSpan="2" Margin="0,0,-8,0">
+        </Canvas>
+        <Label x:Name="paused" Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="282,144,0,0" Height="93" Width="196" FontSize="36" FontFamily="Segoe UI Semibold"/>
+
     </Grid>
 </Window>
