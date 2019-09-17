@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PingPong"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+        Height="450" 
+        Width="800"
+        KeyDown="Window_KeyDown">
     <Grid>
-        
+        <Canvas Name="canvas"
+                Height="450"
+                Width="800">
+          
+        </Canvas>
     </Grid>
 </Window>
