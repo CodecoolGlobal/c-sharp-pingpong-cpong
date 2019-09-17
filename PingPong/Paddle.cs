@@ -13,8 +13,7 @@ namespace PingPong
         int posY = 350;
         int width = 200;
         int height = 20;
-        int step = 10;
-        int leftEdge, rightEdge;
+        int step = 5;
 
         public Paddle(Canvas canvas)
         {
