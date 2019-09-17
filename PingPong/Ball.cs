@@ -31,10 +31,10 @@ namespace PingPong
             
         }
 
-        public void span()
+        public void span(int xPos, int yPos)
         {
-            x = 50;
-            y = 50;
+            x = xPos;
+            y = yPos;
             Canvas.SetTop(rectangle, y);
             Canvas.SetLeft(rectangle, x);
         }
