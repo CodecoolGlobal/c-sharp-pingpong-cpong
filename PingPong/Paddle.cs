@@ -9,10 +9,10 @@ namespace PingPong
     {
         Rectangle rectangle = new Rectangle();
         Canvas canvas;
-        int posX;
-        int posY;
-        int width = 200;
-        int height = 20;
+        public int posX;
+        public int posY;
+        public int width = 200;
+        public int height = 20;
         int step = 5;
 
         public Paddle(Canvas canvas)

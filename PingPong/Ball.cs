@@ -31,7 +31,7 @@ namespace PingPong
             
         }
 
-        public void span()
+        public void spawn()
         {
             x = 50;
             y = 50;
@@ -59,7 +59,7 @@ namespace PingPong
             }
         }
 
-        public void boudnceY()
+        public void bounceY()
         {
             if(ydir == 5)
             {
