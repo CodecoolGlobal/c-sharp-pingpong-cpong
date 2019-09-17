@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
+
 namespace PingPong
 {
     /// <summary>
@@ -23,70 +24,99 @@ namespace PingPong
     {
         Ball ball;
         DispatcherTimer dispatcherTimer;
+        Paddle paddle;
+        int Score;
 
         public MainWindow()
         {
             InitializeComponent();
             ball = new Ball(canvas);
             dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = new TimeSpan(0,0,0,0,25);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_tick);
+            Score = 0;
 
         }
 
-        public void dispatcherTimer_tick(object sender, EventArgs e)
-        {
-            ball.movement();
 
-            if(ball.x <= 0 || ball.x >= ActualWidth - 15)
+            public void dispatcherTimer_tick(object sender, EventArgs e)
+            {
+                ball.movement();
+
+            if(ball.x <= 0 || ball.x >= ActualWidth -30)
             {
                 ball.bounceX();
+                Score += 10;
+                score.Content = "Score: " + Score;
             }
-                
-            if(ball.y <= 0 || ball.y >= ActualHeight -15)
+
+            if(ball.y <= 0)
             {
                 ball.boudnceY();
+                Score += 10;
+                score.Content = "Score: " + Score;
+            }
+            if (ball.y >= ActualHeight - 30)
+            {
+                ball.boudnceY();
+                Score -= 15;
+                score.Content = "Score: " + Score;
             }
         }
 
 
-        public void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (dispatcherTimer.IsEnabled)
+            public void Window_KeyDown(object sender, KeyEventArgs e)
             {
-                if (e.Key == Key.Space)
+                if (dispatcherTimer.IsEnabled)
                 {
-                    dispatcherTimer.IsEnabled = false;
-                    paused.Visibility = Visibility.Visible;
-                }
+                    if (e.Key == Key.Space)
+                    {
+                        dispatcherTimer.IsEnabled = false;
+                        paused.Visibility = Visibility.Visible;
+                    }
+
+                    if (e.Key == Key.Left)
+                    {
+                        paddle.move(Direction.Left);
+                    }
+
+                    if (e.Key == Key.Right)
+                    {
+                        paddle.move(Direction.Right);
+                    }
             }
-            else
+                else
                 {
                     dispatcherTimer.IsEnabled = true;
                     paused.Visibility = Visibility.Hidden;
                 }
-            if(e.Key == Key.Escape)
-            {
-                dispatcherTimer.IsEnabled = false;
-                MessageBoxResult result = MessageBox.Show("Are you sure to quit from the best game ever?","PingPong", MessageBoxButton.YesNo);
-                switch (result)
+                if (e.Key == Key.Escape)
                 {
-                    case MessageBoxResult.Yes:
-                        Close();
-                        break;
-                    case MessageBoxResult.No:
-                        dispatcherTimer.IsEnabled = true;
-                        break;
-            }
-            }
+                    dispatcherTimer.IsEnabled = false;
+                    MessageBoxResult result = MessageBox.Show("Are you sure to quit from the best game ever?", "PingPong", MessageBoxButton.YesNo);
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            Close();
+                            break;
+                        case MessageBoxResult.No:
+                            dispatcherTimer.IsEnabled = true;
+                            break;
+                    }
+                }
             }
 
-        
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            paddle = new Paddle(canvas);
+            ball.span();
             dispatcherTimer.IsEnabled = false;
             paused.Visibility = Visibility.Hidden;
+            score.Content = "Score: " + Score;
+            Console.WriteLine(canvas.ActualWidth);
+            Console.WriteLine(canvas.Width);
         }
     }
 }

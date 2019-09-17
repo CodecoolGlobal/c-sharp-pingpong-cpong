@@ -20,8 +20,6 @@ namespace PingPong
         {
 
             SolidColorBrush color = new SolidColorBrush();
-            x = 50;
-            y = 50;
             size = 15;
             xdir = speed;
             ydir = speed;
@@ -29,12 +27,17 @@ namespace PingPong
             rectangle.Fill = color;
             rectangle.Width = size;
             rectangle.Height = size;
-            Canvas.SetTop(rectangle, y);
-            Canvas.SetLeft(rectangle, x);
             canvas.Children.Add(rectangle);
             
         }
 
+        public void span()
+        {
+            x = 50;
+            y = 50;
+            Canvas.SetTop(rectangle, y);
+            Canvas.SetLeft(rectangle, x);
+        }
         public void movement()
         {
             x += xdir;
