@@ -23,6 +23,7 @@ namespace PingPong
     {
         Ball ball;
         DispatcherTimer dispatcherTimer;
+        int Score;
 
         public MainWindow()
         {
@@ -31,6 +32,7 @@ namespace PingPong
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0,0,0,0,25);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_tick);
+            Score = 0;
 
         }
 
@@ -41,11 +43,21 @@ namespace PingPong
             if(ball.x <= 0 || ball.x >= ActualWidth -30)
             {
                 ball.bounceX();
+                Score += 10;
+                score.Content = "Score: " + Score;
             }
 
-            if(ball.y <= 0 || ball.y >= ActualHeight -30)
+            if(ball.y <= 0)
             {
                 ball.boudnceY();
+                Score += 10;
+                score.Content = "Score: " + Score;
+            }
+            if (ball.y >= ActualHeight - 30)
+            {
+                ball.boudnceY();
+                Score -= 15;
+                score.Content = "Score: " + Score;
             }
         }
 
@@ -85,8 +97,10 @@ namespace PingPong
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            ball.span();
             dispatcherTimer.IsEnabled = false;
             paused.Visibility = Visibility.Hidden;
+            score.Content = "Score: " + Score;
         }
     }
 }
