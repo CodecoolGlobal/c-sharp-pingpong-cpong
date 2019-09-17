@@ -1,17 +1,21 @@
-﻿<Window x:Name="MainWindow1" x:Class="PingPong.MainWindow"
+﻿<Window x:Name="mainWindow" x:Class="PingPong.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PingPong"
         mc:Ignorable="d"
-        Title="MainWindow" 
-        Height="450" 
-        Width="800"
         KeyDown="Window_KeyDown"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        WindowState="Maximized"
+        WindowStyle="None">
     <Grid>
-        <Canvas Name="canvas"/>
+        <Canvas Name="canvas"
+                Width="{Binding ElementName=mainWindow, Path=ActualWidth}"
+                Height="{Binding ElementName=mainWindow, Path=ActualHeight}">
+            <Label x:Name="score" Content="Label" Canvas.Left="60" Canvas.Top="44" FontWeight="Bold"/>
+
+        </Canvas>
         <Label x:Name="paused" Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="282,144,0,0" Height="93" Width="196" FontSize="36" FontFamily="Segoe UI Semibold"/>
 
     </Grid>
