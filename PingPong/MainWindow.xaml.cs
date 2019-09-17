@@ -52,15 +52,21 @@ namespace PingPong
 
             if(ball.y <= 0)
             {
-                ball.boudnceY();
+                ball.bounceY();
                 Score += 10;
                 score.Content = "Score: " + Score;
             }
+
             if (ball.y >= ActualHeight - 30)
             {
-                ball.boudnceY();
+                ball.bounceY();
                 Score -= 15;
                 score.Content = "Score: " + Score;
+            }
+
+            if (ball.y >= paddle.posY - paddle.height && (paddle.posX <= ball.x && ball.x <= paddle.posX + paddle.width))
+            {
+                ball.bounceY();
             }
         }
 
@@ -111,7 +117,7 @@ namespace PingPong
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             paddle = new Paddle(canvas);
-            ball.span();
+            ball.spawn();
             dispatcherTimer.IsEnabled = false;
             paused.Visibility = Visibility.Hidden;
             score.Content = "Score: " + Score;
