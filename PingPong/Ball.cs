@@ -31,10 +31,10 @@ namespace PingPong
             
         }
 
-        public void spawn()
+        public void spawn(int xPos, int yPos)
         {
-            x = 50;
-            y = 50;
+            int x = xPos;
+            int y = yPos;
             Canvas.SetTop(rectangle, y);
             Canvas.SetLeft(rectangle, x);
         }
