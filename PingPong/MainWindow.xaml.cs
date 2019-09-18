@@ -25,12 +25,14 @@ namespace PingPong
         Ball ball;
         DispatcherTimer dispatcherTimer;
         Paddle paddle;
+        Powerup powerup;
         int Score;
 
         public MainWindow()
         {
             InitializeComponent();
             ball = new Ball(canvas);
+            powerup = new Powerup(canvas);
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_tick);
@@ -42,6 +44,7 @@ namespace PingPong
             public void dispatcherTimer_tick(object sender, EventArgs e)
             {
                 ball.movement();
+            powerup.movement();
 
             if(ball.x <= 0 || ball.x >= ActualWidth -30)
             {
@@ -118,6 +121,7 @@ namespace PingPong
         {
             paddle = new Paddle(canvas);
             ball.spawn();
+            powerup.spawn();
             dispatcherTimer.IsEnabled = false;
             paused.Visibility = Visibility.Hidden;
             score.Content = "Score: " + Score;
