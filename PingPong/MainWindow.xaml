@@ -16,7 +16,7 @@
             <Label x:Name="score" Content="Label" Canvas.Left="60" Canvas.Top="44" FontWeight="Bold"/>
 
         </Canvas>
-        <Label x:Name="paused" Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="282,144,0,0" Height="93" Width="196" FontSize="36" FontFamily="Segoe UI Semibold"/>
+        <Label x:Name="paused" Content="Pause" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="270,228,294,206" Height="93" Width="196" FontSize="70" FontFamily="Segoe UI Semibold"/>
 
     </Grid>
 </Window>

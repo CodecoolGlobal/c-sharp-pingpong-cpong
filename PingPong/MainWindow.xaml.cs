@@ -50,14 +50,15 @@ namespace PingPong
             }
 
 
-            if (ball.isOutOfBounds())
+            if (ball.y >= ActualHeight - 30)
             {
+                ball.y = Util.GetRandomNumber(90, 150);
                 Score -= 15;
                 score.Content = "Score: " + Score;
             }
 
         }
-
+        
 
         public void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -105,7 +106,7 @@ namespace PingPong
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             paddle = new Paddle(canvas);
-            ball.spawn();
+            ball.spawn(50,50);
             dispatcherTimer.IsEnabled = false;
             paused.Visibility = Visibility.Hidden;
             score.Content = "Score: " + Score;

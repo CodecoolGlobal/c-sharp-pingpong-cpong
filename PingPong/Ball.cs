@@ -32,10 +32,10 @@ namespace PingPong
             canvas.Children.Add(rectangle);
         }
 
-        public void spawn()
+        public void spawn(int posX, int posY)
         {
-            posX = 50;
-            posY = 50;
+            this.posX = posX;
+            this.posY = posY;
             Canvas.SetTop(rectangle, posY);
             Canvas.SetLeft(rectangle, posX);
         }
