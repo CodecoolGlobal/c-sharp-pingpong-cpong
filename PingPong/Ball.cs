@@ -12,13 +12,15 @@ namespace PingPong
     class Ball
     {
         Rectangle rectangle = new Rectangle();
-        public int x, y, size;
+        public int posX, posY, size;
         int xdir, ydir;
         int speed = 5;
+        Canvas canvas;
+        public bool paddleHit = false;
 
         public Ball(Canvas canvas)
         {
-
+            this.canvas = canvas;
             SolidColorBrush color = new SolidColorBrush();
             size = 15;
             xdir = speed;
@@ -28,47 +30,87 @@ namespace PingPong
             rectangle.Width = size;
             rectangle.Height = size;
             canvas.Children.Add(rectangle);
-            
         }
 
         public void spawn()
         {
-            x = 50;
-            y = 50;
-            Canvas.SetTop(rectangle, y);
-            Canvas.SetLeft(rectangle, x);
+            posX = 50;
+            posY = 50;
+            Canvas.SetTop(rectangle, posY);
+            Canvas.SetLeft(rectangle, posX);
         }
         public void movement()
         {
-            x += xdir;
-            y += ydir;
-            Canvas.SetTop(rectangle, y);
-            Canvas.SetLeft(rectangle, x);
+            posX += xdir;
+            posY += ydir;
+            Canvas.SetTop(rectangle, posY);
+            Canvas.SetLeft(rectangle, posX);
         }
 
-        public void bounceX()
+        public void bounceFromVertical()
         {
             if(xdir == 5)
             {
                 xdir = -5;
             }
-
             else
             {
                 xdir = 5;
             }
         }
 
-        public void bounceY()
+        public void bounceFromHorizontal()
         {
             if(ydir == 5)
             {
                 ydir = -5;
-
             }
             else
             {
                 ydir = 5;
+            }
+        }
+
+        public void checkCollision(Paddle paddle)
+        {
+            checkVerticalWallCollision();
+            checkHorizontalWallCollision();
+            checkPaddleCollision(paddle);
+        }
+
+        public bool isOutOfBounds()
+        {
+            if (posY >= canvas.Height - 30)
+            {
+                bounceFromHorizontal();
+                return true;
+            }
+            return false;
+        }
+
+        private void checkPaddleCollision(Paddle paddle)
+        {
+            if (posY >= paddle.posY - paddle.height && (paddle.posX <= posX && posX <= paddle.posX + paddle.width))
+            {
+                paddleHit = true;
+                bounceFromHorizontal();
+            }
+            paddleHit = false;
+        }
+
+        private void checkHorizontalWallCollision()
+        {
+            if (posY <= 0)
+            {
+                bounceFromHorizontal();
+            }
+        }
+
+        private void checkVerticalWallCollision()
+        {
+            if (posX <= 0 || posX >= canvas.Width - 30)
+            {
+                bounceFromVertical();
             }
         }
     }
