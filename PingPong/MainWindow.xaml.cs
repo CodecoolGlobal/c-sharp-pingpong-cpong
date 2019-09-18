@@ -46,23 +46,30 @@ namespace PingPong
             if (ball.x <= 0 || ball.x >= ActualWidth - 30)
             {
                 ball.bounceX();
-                Score += 10;
-                score.Content = "Score: " + Score;
+                
             }
 
             if (ball.y <= 0)
             {
-                ball.boudnceY();
-                Score += 10;
-                score.Content = "Score: " + Score;
+                ball.bounceY();
+                
             }
+
             if (ball.y >= ActualHeight - 30)
             {
-                ball.span(Util.getRandomNumber(50), 50);
+                ball.y = Util.GetRandomNumber(90, 150);
                 Score -= 15;
                 score.Content = "Score: " + Score;
             }
+
+            if (ball.y >= paddle.posY - paddle.height && (paddle.posX <= ball.x && ball.x <= paddle.posX + paddle.width))
+            {
+                ball.bounceY();
+                Score += 10;
+                score.Content = "Score: " + Score;
+            }
         }
+        
 
 
         public void Window_KeyDown(object sender, KeyEventArgs e)
@@ -111,7 +118,7 @@ namespace PingPong
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             paddle = new Paddle(canvas);
-            ball.span(Util.getRandomNumber(50), 50);
+            ball.spawn(50,50);
             dispatcherTimer.IsEnabled = false;
             paused.Visibility = Visibility.Hidden;
             score.Content = "Score: " + Score;

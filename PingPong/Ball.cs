@@ -31,10 +31,10 @@ namespace PingPong
             
         }
 
-        public void span(int xPos, int yPos)
+        public void spawn(int xPos, int yPos)
         {
-            x = xPos;
-            y = yPos;
+            int x = xPos;
+            int y = yPos;
             Canvas.SetTop(rectangle, y);
             Canvas.SetLeft(rectangle, x);
         }
@@ -59,7 +59,7 @@ namespace PingPong
             }
         }
 
-        public void boudnceY()
+        public void bounceY()
         {
             if(ydir == 5)
             {

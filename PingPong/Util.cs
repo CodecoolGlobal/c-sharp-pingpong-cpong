@@ -11,11 +11,11 @@ namespace PingPong
 
         public static Random random = new Random();
 
-        public static int getRandomNumber(int maxValue)
+        public static int GetRandomNumber(int minValue, int maxValue)
         {
-            return random.Next(maxValue);
+            return random.Next((maxValue - minValue) + 1) + minValue;
         }
 
-       
+
     }
 }
