@@ -12,19 +12,19 @@ namespace PingPong
     class Ball
     {
         Rectangle rectangle = new Rectangle();
-        public int posX, posY, size;
-        int xdir, ydir;
-        int speed = 5;
+        BallDirection.Direction directionX, directionY;
         Canvas canvas;
+        public int posX, posY;
+        int size = 15;
+        int speed = 5;
         public bool paddleHit = false;
 
         public Ball(Canvas canvas)
         {
             this.canvas = canvas;
             SolidColorBrush color = new SolidColorBrush();
-            size = 15;
-            xdir = speed;
-            ydir = speed;
+            directionX = BallDirection.RandomDirection();
+            directionY = BallDirection.Direction.Positive;
             color.Color = Color.FromRgb(255,0,0);
             rectangle.Fill = color;
             rectangle.Width = size;
@@ -36,84 +36,75 @@ namespace PingPong
         {
             this.posX = posX;
             this.posY = posY;
-            Canvas.SetTop(rectangle, posY);
+            directionX = BallDirection.RandomDirection();
+            directionY = BallDirection.Direction.Positive;
             Canvas.SetLeft(rectangle, posX);
+            Canvas.SetTop(rectangle, posY);
         }
         public void movement()
         {
-            posX += xdir;
-            posY += ydir;
-            Canvas.SetTop(rectangle, posY);
+            posX += speed * (int)directionX;
+            posY += speed * (int)directionY;
             Canvas.SetLeft(rectangle, posX);
-        }
-
-        public void bounceFromVertical()
-        {
-            if(xdir == 5)
-            {
-                xdir = -5;
-            }
-            else
-            {
-                xdir = 5;
-            }
-        }
-
-        public void bounceFromHorizontal()
-        {
-            if(ydir == 5)
-            {
-                ydir = -5;
-            }
-            else
-            {
-                ydir = 5;
-            }
+            Canvas.SetTop(rectangle, posY);
         }
 
         public void checkCollision(Paddle paddle)
         {
-            checkVerticalWallCollision();
-            checkHorizontalWallCollision();
+            checkWallCollision();
             checkPaddleCollision(paddle);
         }
 
-        public bool isOutOfBounds()
+        private void checkWallCollision()
         {
-            if (posY >= canvas.Height - 30)
+            bool ballLeftSideOut = posX <= 0;
+            bool ballRightSideOut = posX >= canvas.Width - 30;
+            bool ballTopOut = posY <= 0;
+
+            if (ballLeftSideOut || ballRightSideOut)
             {
-                bounceFromHorizontal();
-                return true;
+                bounce(WallPlane.Vertical);
             }
-            return false;
+
+            if (ballTopOut)
+            {
+                bounce(WallPlane.Horizontal);
+            }
         }
 
         private void checkPaddleCollision(Paddle paddle)
         {
-            if (posY >= paddle.posY - paddle.height && (paddle.posX <= posX && posX <= paddle.posX + paddle.width))
+            bool ballAndPaddleSameHorizontal = paddle.posX <= posX && posX <= paddle.rightEdge;
+            bool ballAndPaddleSameVertical = posY >= paddle.posY - paddle.height;
+
+            if (ballAndPaddleSameHorizontal && ballAndPaddleSameVertical)
             {
                 paddleHit = true;
-                bounceFromHorizontal();
-            }
-            paddleHit = false;
-        }
-
-        private void checkHorizontalWallCollision()
-        {
-            if (posY <= 0)
-            {
-                bounceFromHorizontal();
+                bounce(WallPlane.Horizontal);
             }
         }
 
-        private void checkVerticalWallCollision()
+        public void bounce(WallPlane plane)
         {
-            if (posX <= 0 || posX >= canvas.Width - 30)
+            if (plane.Equals(WallPlane.Vertical))
             {
-                bounceFromVertical();
+                directionX = BallDirection.SwitchDirection(directionX);
             }
+            if (plane.Equals(WallPlane.Horizontal))
+            {
+                directionY = BallDirection.SwitchDirection(directionY);
+            }
+        }
+
+        public bool isOutOfWindow()
+        {
+            bool ballBottomOut = posY >= canvas.Height - 30;
+
+            if (ballBottomOut)
+            {
+                return true;
+            }
+            return false;
         }
     }
-
-
 }
