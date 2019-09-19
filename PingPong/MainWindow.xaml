@@ -14,7 +14,7 @@
                 Width="{Binding ElementName=mainWindow, Path=ActualWidth}"
                 Height="{Binding ElementName=mainWindow, Path=ActualHeight}">
             <Label x:Name="score" Content="Label" Canvas.Left="60" Canvas.Top="44" FontWeight="Bold"/>
-            <Label x:Name="powerupTimerLabel" Content="Label" Canvas.Left="60" Canvas.Top="70" FontWeight="Bold"/>
+            <Label x:Name="powerupTimerLabel" Content="Label" Canvas.Left="60" Canvas.Top="70" FontWeight="Bold" Foreground="Red"/>
 
         </Canvas>
         <Label x:Name="paused" Content="Pause" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="270,228,294,206" Height="93" Width="196" FontSize="70" FontFamily="Segoe UI Semibold"/>

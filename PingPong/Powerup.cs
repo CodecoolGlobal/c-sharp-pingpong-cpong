@@ -23,6 +23,7 @@ namespace PingPong
         public bool isSpawned = false;
         public bool isActive = false;
         int speed = 5;
+       
 
         public Powerup(Canvas canvas)
         {
@@ -100,7 +101,7 @@ namespace PingPong
         public void checkTimeUp()
         {
             TimeSpan timeSpan = stopwatch.Elapsed;
-            bool timeIsUp = 5 <= timeSpan.TotalSeconds;
+            bool timeIsUp = 20 <= timeSpan.TotalSeconds;
 
             if (timeIsUp)
             {
