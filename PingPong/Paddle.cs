@@ -74,6 +74,12 @@ namespace PingPong
                     break;
 
                 case PowerUpType.Type.Wide:
+                    bool newRightEdgeOutOfCanvas = posX + (width * 2) > canvas.Width;
+
+                    if (newRightEdgeOutOfCanvas)
+                    {
+                        posX = (int)canvas.Width - 20 - width * 2;
+                    }
                     width *= 2;
                     rectangle.Width = width;
                     break;
