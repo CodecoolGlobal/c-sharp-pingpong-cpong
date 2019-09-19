@@ -80,7 +80,7 @@ namespace PingPong
             powerup.checkPaddleCollision(paddle);
             if (powerup.paddleHit)
             {
-                ball.paddleHit = false;
+                powerup.paddleHit = false;
             }
 
             if (powerup.isOutOfWindow())
