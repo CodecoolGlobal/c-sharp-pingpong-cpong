@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -9,11 +10,13 @@ namespace PingPong
     {
         Rectangle rectangle = new Rectangle();
         Canvas canvas;
+        Powerup powerup;
         public int posX;
         public int posY;
         public int width = 200;
         public int height = 20;
         public int rightEdge;
+        public bool powerUpPickedUp = false;
         int step = 5;
 
         public Paddle(Canvas canvas)
@@ -46,6 +49,65 @@ namespace PingPong
             Canvas.SetLeft(rectangle, newPosX);
             posX = newPosX;
             rightEdge = posX + width;
+        }
+
+        public void checkTimer()
+        {
+            if (!powerup.isActive)
+            {
+                powerUpOff(powerup);
+            }
+        }
+
+        public void pickUpPowerUp(Powerup powerup)
+        {
+            this.powerup = powerup;
+            powerUpPickedUp = true;
+            switch (powerup.type)
+            {
+                case PowerUpType.Type.Fast:
+                    step *= 2;
+                    break;
+
+                case PowerUpType.Type.Slow:
+                    step /= 2;
+                    break;
+
+                case PowerUpType.Type.Wide:
+                    width *= 2;
+                    rectangle.Width = width;
+                    break;
+
+                case PowerUpType.Type.Narrow:
+                    width /= 2;
+                    rectangle.Width = width;
+                    break;
+            }
+        }
+
+        public void powerUpOff(Powerup powerup)
+        {
+            powerUpPickedUp = false;
+            switch (powerup.type)
+            {
+                case PowerUpType.Type.Fast:
+                    step /= 2;
+                    break;
+
+                case PowerUpType.Type.Slow:
+                    step *= 2;
+                    break;
+
+                case PowerUpType.Type.Wide:
+                    width /= 2;
+                    rectangle.Width = width;
+                    break;
+
+                case PowerUpType.Type.Narrow:
+                    width *= 2;
+                    rectangle.Width = width;
+                    break;
+            }
         }
     }
 }

@@ -59,6 +59,10 @@ namespace PingPong
         {
             ballActionsOnTimeTick();
             powerUpActionsOnTimeTick();
+            if (paddle.powerUpPickedUp)
+            {
+                paddle.checkTimer();
+            }
         }
 
         private void ballActionsOnTimeTick()
@@ -82,16 +86,26 @@ namespace PingPong
 
         private void powerUpActionsOnTimeTick()
         {
-            powerup.movement();
-            powerup.checkPaddleCollision(paddle);
+            if (powerup.isSpawned)
+            {
+                powerup.movement();
+                powerup.checkPaddleCollision(paddle);
+            }
             if (powerup.paddleHit)
             {
-                ball.paddleHit = false;
+                paddle.pickUpPowerUp(powerup);
+                powerup.paddleHit = false;
+                powerup.deSpawn();
             }
 
             if (powerup.isOutOfWindow())
             {
                 powerup.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
+            }
+
+            if (powerup.isActive)
+            {
+                powerup.checkTimeUp();
             }
         }
 
