@@ -24,6 +24,7 @@ namespace PingPong
     {
         Ball ball;
         Paddle paddle;
+        Powerup powerup;
         DispatcherTimer dispatcherTimer;
         DispatcherTimer _powerupTimer;
         int Score;
@@ -46,7 +47,9 @@ namespace PingPong
         {
             ball = new Ball(canvas);
             paddle = new Paddle(canvas);
+            powerup = new Powerup(canvas);
             ball.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
+            powerup.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
             dispatcherTimer.IsEnabled = false;
             _powerupTimer.IsEnabled = true;
             paused.Visibility = Visibility.Hidden;
@@ -54,6 +57,12 @@ namespace PingPong
         }
 
         public void dispatcherTimer_tick(object sender, EventArgs e)
+        {
+            ballActionsOnTimeTick();
+            powerUpActionsOnTimeTick();
+        }
+
+        private void ballActionsOnTimeTick()
         {
             ball.movement();
             ball.checkCollision(paddle);
@@ -69,6 +78,21 @@ namespace PingPong
                 ball.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
                 Score -= 15;
                 score.Content = "Score: " + Score;
+            }
+        }
+
+        private void powerUpActionsOnTimeTick()
+        {
+            powerup.movement();
+            powerup.checkPaddleCollision(paddle);
+            if (powerup.paddleHit)
+            {
+                ball.paddleHit = false;
+            }
+
+            if (powerup.isOutOfWindow())
+            {
+                powerup.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
             }
         }
 
