@@ -13,6 +13,7 @@ namespace PingPong
         public int posY;
         public int width = 200;
         public int height = 20;
+        public int rightEdge;
         int step = 5;
 
         public Paddle(Canvas canvas)
@@ -27,19 +28,24 @@ namespace PingPong
             canvas.Children.Add(rectangle);
             posX = (int)(canvas.Width / 2) - (int)(rectangle.Width / 2);
             posY = (int)canvas.Height - 50;
-            Canvas.SetTop(rectangle, posY);
+            rightEdge = posX + width;
             Canvas.SetLeft(rectangle, posX);
+            Canvas.SetTop(rectangle, posY);
         }
 
-        public void move(Direction direction)
+        public void move(KeyDirection direction)
         {
             int newPosX = posX + ((int)direction * step);
-            if (newPosX < 0 || newPosX > canvas.Width - (width + 20))
+            bool leftSideOut = newPosX < 0;
+            bool rightSideOut = newPosX > canvas.Width - (width + 20);
+
+            if (leftSideOut || rightSideOut)
             {
                 newPosX = posX;
             }
             Canvas.SetLeft(rectangle, newPosX);
             posX = newPosX;
+            rightEdge = posX + width;
         }
     }
 }

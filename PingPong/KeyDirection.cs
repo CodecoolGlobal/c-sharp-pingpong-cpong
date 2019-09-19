@@ -1,6 +1,6 @@
 ﻿namespace PingPong
 {
-    enum Direction
+    enum KeyDirection
     {
         Left = -1,
         Right = 1

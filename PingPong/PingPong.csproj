@@ -54,6 +54,9 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="BallDirection.cs" />
+    <Compile Include="WallPlane.cs" />
+    <Compile Include="Util.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,7 +66,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Powerup.cs" />
-    <Compile Include="Direction.cs" />
+    <Compile Include="KeyDirection.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
