@@ -39,7 +39,6 @@ namespace PingPong
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_tick);
-       
             Score = 0;
         }
 
