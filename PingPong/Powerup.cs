@@ -14,9 +14,9 @@ namespace PingPong
 {
     class Powerup
     {
-        Rectangle rectangle = new Rectangle();
+        Rectangle rectangle;
         Canvas canvas;
-        Stopwatch stopwatch = new Stopwatch();
+        Stopwatch stopwatch;
         public PowerUpType.Type type;
         public int posX, posY, size;
         public bool paddleHit = false;
@@ -28,6 +28,8 @@ namespace PingPong
         public Powerup(Canvas canvas)
         {
             this.canvas = canvas;
+            rectangle = new Rectangle();
+            stopwatch = new Stopwatch();
             SolidColorBrush color = new SolidColorBrush();
             size = 15;
             color.Color = Color.FromRgb(0, 255, 0);
