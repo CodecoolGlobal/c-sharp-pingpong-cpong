@@ -65,6 +65,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Powerup.cs" />
     <Compile Include="KeyDirection.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="MainWindow.xaml.cs">
