@@ -26,11 +26,16 @@ namespace PingPong
         Paddle paddle;
         Powerup powerup;
         DispatcherTimer dispatcherTimer;
+        DispatcherTimer _powerupTimer;
         int Score;
+        int powerupTimer = 30;
 
         public MainWindow()
         {
             InitializeComponent();
+            _powerupTimer = new DispatcherTimer();
+            _powerupTimer.Interval = new TimeSpan(0, 0, 1);
+            _powerupTimer.Tick += new EventHandler(powerupTimer_tick);
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_tick);
@@ -45,6 +50,7 @@ namespace PingPong
             ball.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
             powerup.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
             dispatcherTimer.IsEnabled = false;
+            _powerupTimer.IsEnabled = true;
             paused.Visibility = Visibility.Hidden;
             score.Content = "Score: " + Score;
         }
@@ -88,6 +94,14 @@ namespace PingPong
                 powerup.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
             }
         }
+
+        public void powerupTimer_tick(object sender, EventArgs e)
+        {
+
+            powerupTimerLabel.Content = powerupTimer -= 1;
+          
+        }
+
 
         public void Window_KeyDown(object sender, KeyEventArgs e)
         {
