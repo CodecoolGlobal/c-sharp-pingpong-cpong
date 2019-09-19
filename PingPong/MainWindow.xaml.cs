@@ -23,73 +23,67 @@ namespace PingPong
     public partial class MainWindow : Window
     {
         Ball ball;
-        DispatcherTimer dispatcherTimer;
         Paddle paddle;
+        DispatcherTimer dispatcherTimer;
         int Score;
 
         public MainWindow()
         {
             InitializeComponent();
-            ball = new Ball(canvas);
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_tick);
             Score = 0;
-
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ball = new Ball(canvas);
+            paddle = new Paddle(canvas);
+            ball.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
+            dispatcherTimer.IsEnabled = false;
+            paused.Visibility = Visibility.Hidden;
+            score.Content = "Score: " + Score;
+        }
 
         public void dispatcherTimer_tick(object sender, EventArgs e)
         {
             ball.movement();
-
-            if (ball.x <= 0 || ball.x >= ActualWidth - 30)
+            ball.checkCollision(paddle);
+            if (ball.paddleHit)
             {
-                ball.bounceX();
-                
-            }
-
-            if (ball.y <= 0)
-            {
-                ball.bounceY();
-                
-            }
-
-            if (ball.y >= ActualHeight - 30)
-            {
-                ball.y = Util.GetRandomNumber(90, 150);
-                Score -= 15;
+                Score += 15;
                 score.Content = "Score: " + Score;
+                ball.paddleHit = false;
             }
 
-            if (ball.y >= paddle.posY - paddle.height && (paddle.posX <= ball.x && ball.x <= paddle.posX + paddle.width))
+            if (ball.isOutOfWindow())
             {
-                ball.bounceY();
-                Score += 10;
+                ball.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
+                Score -= 15;
                 score.Content = "Score: " + Score;
             }
         }
         
 
-
         public void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (dispatcherTimer.IsEnabled)
             {
-                if (e.Key == Key.Space)
+                switch (e.Key)
                 {
-                    dispatcherTimer.IsEnabled = false;
-                    paused.Visibility = Visibility.Visible;
-                }
+                    case Key.Space:
+                        dispatcherTimer.IsEnabled = false;
+                        paused.Visibility = Visibility.Visible;
+                        break;
 
-                if (e.Key == Key.Left)
-                {
-                    paddle.move(Direction.Left);
-                }
+                    case Key.Left:
+                        paddle.move(KeyDirection.Left);
+                        break;
 
-                if (e.Key == Key.Right)
-                {
-                    paddle.move(Direction.Right);
+                    case Key.Right:
+                        paddle.move(KeyDirection.Right);
+                        break;
                 }
             }
             else
@@ -106,24 +100,12 @@ namespace PingPong
                     case MessageBoxResult.Yes:
                         Close();
                         break;
+
                     case MessageBoxResult.No:
                         dispatcherTimer.IsEnabled = true;
                         break;
                 }
             }
-        }
-
-
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            paddle = new Paddle(canvas);
-            ball.spawn(50,50);
-            dispatcherTimer.IsEnabled = false;
-            paused.Visibility = Visibility.Hidden;
-            score.Content = "Score: " + Score;
-            Console.WriteLine(canvas.ActualWidth);
-            Console.WriteLine(canvas.Width);
         }
     }
 }
