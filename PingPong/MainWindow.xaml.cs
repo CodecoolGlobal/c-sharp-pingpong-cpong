@@ -28,7 +28,11 @@ namespace PingPong
         DispatcherTimer dispatcherTimer;
         DispatcherTimer _powerupTimer;
         int Score;
+
+        int scoreToNextPowerUp;
+
         int powerupTimer = 30;
+
 
         public MainWindow()
         {
@@ -40,6 +44,7 @@ namespace PingPong
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_tick);
             Score = 0;
+            scoreToNextPowerUp = 50;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -59,9 +64,16 @@ namespace PingPong
         {
             ballActionsOnTimeTick();
             powerUpActionsOnTimeTick();
+
             if (paddle.powerUpPickedUp)
             {
                 paddle.checkTimer();
+            }
+
+            if (Score >= scoreToNextPowerUp)
+            {
+                powerup.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
+                scoreToNextPowerUp += 50;
             }
         }
 
@@ -94,13 +106,13 @@ namespace PingPong
             if (powerup.paddleHit)
             {
                 paddle.pickUpPowerUp(powerup);
-                powerup.paddleHit = false;
                 powerup.deSpawn();
+                powerup.paddleHit = false;
             }
 
             if (powerup.isOutOfWindow())
             {
-                powerup.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
+                powerup.deSpawn();
             }
 
             if (powerup.isActive)
