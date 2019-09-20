@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="BallDirection.cs" />
+    <Compile Include="PowerUpType.cs" />
     <Compile Include="WallPlane.cs" />
     <Compile Include="Util.cs" />
     <Page Include="MainWindow.xaml">

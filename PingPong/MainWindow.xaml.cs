@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 
 namespace PingPong
@@ -26,21 +27,23 @@ namespace PingPong
         Paddle paddle;
         Powerup powerup;
         DispatcherTimer dispatcherTimer;
-        DispatcherTimer _powerupTimer;
+        Stopwatch stopwatch = new Stopwatch();
         int Score;
+
+        int scoreToNextPowerUp;
+
         int powerupTimer = 30;
+
 
         public MainWindow()
         {
             InitializeComponent();
-            _powerupTimer = new DispatcherTimer();
-            _powerupTimer.Interval = new TimeSpan(0, 0, 1);
-            _powerupTimer.Tick += new EventHandler(powerupTimer_tick);
             dispatcherTimer = new DispatcherTimer();
+           
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 25);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_tick);
-       
             Score = 0;
+            scoreToNextPowerUp = 50;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -51,15 +54,33 @@ namespace PingPong
             ball.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
             powerup.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
             dispatcherTimer.IsEnabled = false;
-            _powerupTimer.IsEnabled = true;
             paused.Visibility = Visibility.Hidden;
             score.Content = "Score: " + Score;
+            powerupTimerLabel.Visibility = Visibility.Hidden;
         }
 
         public void dispatcherTimer_tick(object sender, EventArgs e)
         {
+            powerupTimerLabel.Content = powerupTimer;
             ballActionsOnTimeTick();
             powerUpActionsOnTimeTick();
+            TimeSpan timespan = stopwatch.Elapsed;
+            powerupTimerLabel.Content = Math.Round((double) timespan.TotalSeconds);
+            if(timespan.TotalSeconds >= 20)
+            {
+                stopwatch.Reset();
+                powerupTimerLabel.Visibility = Visibility.Hidden; 
+            }
+            if (paddle.powerUpPickedUp)
+            {
+                paddle.checkTimer();
+            }
+
+            if (Score >= scoreToNextPowerUp)
+            {
+                powerup.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
+                scoreToNextPowerUp += 50;
+            }
         }
 
         private void ballActionsOnTimeTick()
@@ -68,6 +89,7 @@ namespace PingPong
             ball.checkCollision(paddle);
             if (ball.paddleHit)
             {
+                setBackground();
                 Score += 15;
                 score.Content = "Score: " + Score;
                 ball.paddleHit = false;
@@ -83,24 +105,35 @@ namespace PingPong
 
         private void powerUpActionsOnTimeTick()
         {
-            powerup.movement();
-            powerup.checkPaddleCollision(paddle);
+            if (powerup.isSpawned)
+            {
+                powerup.movement();
+                powerup.checkPaddleCollision(paddle);
+            }
             if (powerup.paddleHit)
             {
-                ball.paddleHit = false;
+                powerupTimerLabel.Visibility = Visibility.Visible;
+                stopwatch.Start();
+                paddle.pickUpPowerUp(powerup);
+                powerup.deSpawn();
+                powerup.paddleHit = false;
             }
 
             if (powerup.isOutOfWindow())
             {
-                powerup.spawn(Util.GetRandomNumber(30, (int)ActualWidth - 30), 50);
+                powerup.deSpawn();
+            }
+
+            if (powerup.isActive)
+            {
+                powerup.checkTimeUp();
             }
         }
 
-        public void powerupTimer_tick(object sender, EventArgs e)
+        public void setBackground()
         {
-
-            powerupTimerLabel.Content = powerupTimer -= 1;
-          
+            var brush = new SolidColorBrush(Color.FromRgb((byte) Util.GetRandomNumber(80, 255),(byte) Util.GetRandomNumber(80, 255), (byte) Util.GetRandomNumber(80, 255)));
+            mainWindow.Background = brush;
         }
 
 

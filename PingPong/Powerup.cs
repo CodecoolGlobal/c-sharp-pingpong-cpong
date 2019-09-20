@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,20 +8,28 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PingPong
 {
     class Powerup
     {
-        Rectangle rectangle = new Rectangle();
+        Rectangle rectangle;
         Canvas canvas;
+        Stopwatch stopwatch;
+        public PowerUpType.Type type;
         public int posX, posY, size;
-        int speed = 5;
         public bool paddleHit = false;
+        public bool isSpawned = false;
+        public bool isActive = false;
+        int speed = 5;
+        int lifeSpanInSecs = 20;
 
         public Powerup(Canvas canvas)
         {
             this.canvas = canvas;
+            rectangle = new Rectangle();
+            stopwatch = new Stopwatch();
             SolidColorBrush color = new SolidColorBrush();
             size = 15;
             color.Color = Color.FromRgb(0, 255, 0);
@@ -34,9 +43,19 @@ namespace PingPong
         {
             this.posX = posX;
             this.posY = posY;
+            type = PowerUpType.RandomType();
             Canvas.SetLeft(rectangle, posX);
             Canvas.SetTop(rectangle, posY);
+            isSpawned = true;
             rectangle.Visibility = Visibility.Visible;
+        }
+
+        public void deSpawn()
+        {
+            isSpawned = false;
+            rectangle.Visibility = Visibility.Hidden;
+            posX = 0;
+            posY = 0;
         }
 
         public void movement()
@@ -53,7 +72,7 @@ namespace PingPong
             if (ballAndPaddleSameHorizontal && ballAndPaddleSameVertical)
             {
                 paddleHit = true;
-                rectangle.Visibility = Visibility.Hidden;
+                startTimer();
             }
         }
 
@@ -66,6 +85,29 @@ namespace PingPong
                 return true;
             }
             return false;
+        }
+
+        private void startTimer()
+        {
+            stopwatch.Start();
+            isActive = true;
+        }
+
+        private void stopTimer()
+        {
+            stopwatch.Stop();
+            isActive = false;
+        }
+
+        public void checkTimeUp()
+        {
+            TimeSpan timeSpan = stopwatch.Elapsed;
+            bool timeIsUp = lifeSpanInSecs <= timeSpan.TotalSeconds;
+
+            if (timeIsUp)
+            {
+                stopTimer();
+            }
         }
     }
 }
